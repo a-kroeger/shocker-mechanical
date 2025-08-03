@@ -1,3 +1,12 @@
+# From Alex
+Hello, this website was put into development August 1st, 2025 for Shocker Mechnical Inc. It was produced with Next.js, Algolia, and Contentful, and is deployed to a Netlify server managed by Detour Digital Inc on Shocker Mechanical's behalf.
+
+## Package Versions
+This application uses the current latest stable release of NPM and Node, namely:
+### Node v24.5.0
+### NPM v11.5.1
+
+# About Next.js
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
