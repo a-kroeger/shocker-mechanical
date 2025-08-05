@@ -1,6 +1,7 @@
-// app/page.js
-import Image from 'next/image'
-import Link from 'next/link'
+import Hero from '../components/homepage/Hero.js'
+import ServiceGrid from '../components/service/ServiceGrid.js'
+import AboutUs from '../components/homepage/AboutUs.js'
+import PortfolioGrid from '../components/portfolio/PortfolioGrid.js'
 import { fetchServiceSlugs, fetchServiceEntryBySlug, fetchPortfolioSlugs, fetchPortfolioEntryBySlug, getSiteContent } from '@/utils/contentful'
 
 export default async function HomePage() {
@@ -15,8 +16,6 @@ export default async function HomePage() {
     portfolioSlugs.map((slug) => fetchPortfolioEntryBySlug(slug))
   )
 
-  console.log(content.fields)
-
   const {
     coverPhoto,
     aboutUs,
@@ -26,54 +25,10 @@ export default async function HomePage() {
 
   return (
     <main>
-      <section>
-        <div>
-          <Image src={`https:${coverPhoto.fields.file.url}`} alt="Shocker Mechanical Logo" fill />
-        </div>
-        <div>
-          <a href={instagramLink} target="_blank" rel="noopener noreferrer">
-            Instagram
-          </a>
-          <a href={facebookLink} target="_blank" rel="noopener noreferrer">
-            Facebook
-          </a>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section>
-        <h2>Popular Services</h2>
-        <div>
-          {services.map((service) => (
-            <Link href={`/services/${service.fields.slug}`} key={service.sys.id}>
-              <div>{service.fields.title}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* About */}
-      <section>
-        <h2>About Shocker Mechanical</h2>
-        <p>
-          {aboutUs}
-        </p>
-      </section>
-
-      {/* Portfolio */}
-      <section>
-        <h2>Our Portfolio</h2>
-        <div>
-          {portfolio.map((item) => (
-            <Link key={item.sys.id} href={`/portfolio/${item.fields.slug}`}>
-              <p>{item.fields.title}</p>
-            </Link>
-          ))}
-        </div>
-        <div>
-          <Link href="/portfolio">View All</Link>
-        </div>
-      </section>
+      <Hero cover={`https:${coverPhoto.fields.file.url}`} instagram={instagramLink} facebook={facebookLink} />
+      <ServiceGrid title={'Popular Services'} services={services} />
+      <AboutUs title={'About Shocker Mechanical'} content={aboutUs}/>
+      <PortfolioGrid title={'Our Portfolio'} portfolio={portfolio} />
     </main>
   )
 }

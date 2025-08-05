@@ -11,9 +11,6 @@ export default async function ServicePage({ params }) {
     coverPhoto,
     bodyText,
     portfolio,
-    type,
-    metaTitle,
-    metaDescription,
   } = service.fields
 
   return (
@@ -27,16 +24,9 @@ export default async function ServicePage({ params }) {
         />
       </div>
 
-      {/* Title and Meta */}
-      <header>
-        <h1>{title}</h1>
-        {metaDescription && (
-          <p>{metaDescription}</p>
-        )}
-      </header>
-
       {/* Body Text */}
       <section>
+        <h1>{title}</h1>
         {documentToReactComponents(bodyText)}
       </section>
 
