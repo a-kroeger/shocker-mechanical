@@ -1,0 +1,79 @@
+.contactSection {
+  padding: 150px 50px;
+  margin: auto;
+}
+
+.heading {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #000;
+  padding: 0.75rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.submitBtn {
+  background: none;
+  color: blue;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.status {
+  margin-top: 0.5rem;
+}
+
+.infoBox {
+  background: #1a1a1a;
+  color: white;
+  padding: 1.5rem;
+  flex: 0.4;
+  height: fit-content;
+}
+
+.infoBox h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+/* Desktop layout */
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .form {
+    max-width: 600px;
+  }
+
+  .infoBox {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
