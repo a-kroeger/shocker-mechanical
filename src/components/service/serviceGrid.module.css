@@ -1,0 +1,147 @@
+.services {
+    margin: 0 auto 200px auto;
+    max-width: 1180px;
+    padding: 100px 10px 10px 10px;
+    box-sizing: content-box;
+}
+.services h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.service {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+.services > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+.service img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.service > div {
+    background: #111;
+    color: #fff;
+    padding: 10px 20px;
+}
+.viewAll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background: #eee;
+    color: #111;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.viewAll:hover {
+    background: #ddd;
+}
+
+.services h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.service {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    min-width: 240px; /* makes each card wide enough for horizontal scroll */
+    flex: 0 0 auto;
+}
+
+.services > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+/* Mobile: horizontal scroll row */
+@media (max-width: 768px) {
+    .services > div {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 20px;
+        padding-bottom: 10px; /* space for scrollbar */
+        scroll-snap-type: x mandatory;
+    }
+
+    .service {
+        scroll-snap-align: start;
+    }
+
+    /* nice thin scrollbar */
+    .services > div::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .services > div::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .services > div::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    .services > div::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+/* Default: desktop grid */
+.services > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+/* Only apply horizontal scroll if horizontalMobile is true */
+.horizontalMobile > div {
+    display: grid;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+    .horizontalMobile > div {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 20px;
+        padding-bottom: 10px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .horizontalMobile .service {
+        scroll-snap-align: start;
+        min-width: 240px;
+        flex: 0 0 auto;
+    }
+
+    .horizontalMobile > div::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .horizontalMobile > div::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .horizontalMobile > div::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    .horizontalMobile > div::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+        .services:not(.horizontalMobile) > div {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+

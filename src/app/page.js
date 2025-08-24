@@ -26,7 +26,7 @@ export default async function HomePage() {
   return (
     <main>
       <Hero cover={`https:${coverPhoto.fields.file.url}`} instagram={instagramLink} facebook={facebookLink} />
-      <ServiceGrid title={'Popular Services'} services={services} />
+      <ServiceGrid title={'Popular Services'} limit={5} horizontalMobile={true} services={services} />
       <AboutUs title={'About Shocker Mechanical'} content={aboutUs}/>
       <PortfolioGrid title={'Our Portfolio'} portfolio={portfolio} />
     </main>
