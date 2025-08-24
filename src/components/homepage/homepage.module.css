@@ -1,0 +1,152 @@
+/* Layout shell */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate; /* keeps z-index layers sane */
+}
+
+/* Background */
+.heroImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.heroImage :global(img) {
+  object-fit: cover;
+}
+
+/* Logo card (left) */
+.heroCard {
+  position: absolute;
+  left: clamp(16px, 4vw, 48px);
+  top: 50%;
+  transform: translateY(-45%); /* slightly higher than center like the mock */
+  z-index: 2;
+  background: #fff;
+  border-radius: 18px;
+  padding: 40px 20px;
+  width: min(620px, 37vw);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+.heroCard::after {
+  /* subtle inner hairline on the right, like the mock */
+  content: "";
+  position: absolute;
+  top: 7%;
+  bottom: 7%;
+  right: clamp(18px, 2.2vw, 28px);
+  width: 1px;
+  /* background: rgba(0,0,0,0.08); */
+}
+.heroCard :global(img) {
+  width: 60%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+/* Bottom-right angled white panel */
+.anglePanel {
+  position: absolute;
+  inset: auto 0 0 0;       /* full width, anchored to bottom */
+  height: clamp(220px, 46vh, 560px);
+  background: #fff;
+  z-index: 1;
+  /* Diagonal top edge rising toward the right */
+  clip-path: polygon(0% 100%, 100% 55%, 100% 100%, 0% 100%);
+}
+
+/* Actions that sit on top of the angled panel */
+.actionsWrap {
+  position: absolute;
+  right: clamp(16px, 4.5vw, 64px);
+  bottom: clamp(18px, 3.2vh, 28px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* Social icons row */
+.socials {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.socials :global(img) {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.08));
+}
+
+/* CTA button */
+.cta {
+  display: inline-block;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 500;
+  padding: 12px 40px;
+  box-shadow: 8px 5px 8px rgba(0,0,0,0.25); /* pronounced shadow like mock */
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+}
+.cta:hover {
+  background: #1b1b1b;
+  box-shadow: 6px 12px 18px rgba(0,0,0,0.28);
+}
+
+/* Visibility helpers for CTA text swap */
+.desktopOnly { display: inline-block; }
+.mobileOnly  { display: none; }
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 1024px) {
+  .heroCard {
+    width: min(540px, 66vw);
+    transform: translateY(-38%);
+  }
+  .actionsWrap {
+    right: clamp(14px, 4vw, 40px);
+    bottom: clamp(14px, 2.8vh, 24px);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Card centered on mobile */
+  .heroCard {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 46%;
+    width: min(460px, 88vw);
+  }
+  .heroCard::after { display: none; } /* simplify for small screens */
+
+  /* Taller angle on mobile, steeper slope */
+  .anglePanel {
+    display: none;
+  }
+
+  /* Actions centered; hide socials per mock, show mobile CTA */
+  .actionsWrap {
+    left: 0;
+    right: 0;
+    bottom: clamp(16px, 3.2vh, 24px);
+    align-items: center;
+  }
+  .socials { display: none; }
+
+  .desktopOnly { display: none; }
+  .mobileOnly  { display: inline-block; width: max(220px, 56%); text-align: center; }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+  .cta { padding: 12px 16px; font-size: 15px; }
+  .heroCard { width: 90vw; }
+}

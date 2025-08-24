@@ -1,0 +1,169 @@
+/* ===== Desktop base  ===== */
+.navigation {
+  display: flex;
+  width: 100dvw;
+  height: 50px;
+  justify-content: space-between;
+  padding: 10px 20px;
+  position: fixed;
+  background: #ffffff;
+  z-index: 999;
+}
+.navigation > div:first-child { /* logo container */
+  position: relative;  /* needed for z-index to apply */
+  z-index: 1001;       /* higher than .mobileMenu (1000) */
+}
+
+.navigation img {
+  height: 30px;
+  width: auto;
+}
+
+/* Desktop nav list */
+.navigation ul {
+  display: flex;
+  margin: 0;
+  position: relative;
+  top: 3px;
+}
+
+/* Top-level items */
+.navigation ul li {
+  display: inline-block;
+  margin-left: 50px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Make dropdown parent easy to target (optional) */
+.dropdown { position: relative; }
+
+/* ===== Desktop dropdown ===== */
+.navigation ul li ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffffff;
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+
+  min-width: 100%;
+  width: max-content;
+
+  display: block;           /* override parent flex */
+  flex-direction: column;
+
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 1000;
+}
+.navigation ul li ul li {
+  display: block;
+  padding: 6px 16px;
+  margin: 0;
+  white-space: nowrap;
+}
+.navigation ul li ul li:hover {
+  background: #f5f5f5;
+}
+.navigation ul li ul.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ===== Desktop-only container (hidden on mobile) ===== */
+.desktopNav { display: block; }
+
+/* ===== Hamburger button (hidden on desktop) ===== */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 20px;
+  position: relative;
+  top: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 1001; /* above overlay */
+}
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #000;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ===== Fullscreen mobile overlay (hidden by default) ===== */
+.mobileMenu {
+  position: fixed;
+  margin-top: 50px;;
+  inset: 0;
+  height: 100dvh;
+  width: 100dvw;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000; /* sits above the fixed nav, below the hamburger */
+}
+
+/* Ensure overlay UL doesn’t inherit desktop .navigation ul flex */
+.mobileMenu ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  position: static;     /* override top/relative */
+  top: auto;
+}
+.mobileMenu ul li {
+  margin: 20px 0;       /* reset desktop margin-left */
+  font-size: 1.5rem;
+}
+.mobileMenu ul li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Show overlay */
+.mobileMenu.show {
+  transform: translateY(0);
+}
+
+/* ===== Responsive rules ===== */
+@media (max-width: 768px) {
+  .desktopNav { display: none; }  /* hide desktop nav */
+  .hamburger  { display: flex; }  /* show hamburger */
+
+  /* Optional: slightly larger tap targets on mobile */
+  .mobileMenu ul li { font-size: 1.6rem; }
+}
+
+/* Safety: never show overlay on desktop even if class is toggled */
+@media (min-width: 769px) {
+  .mobileMenu { display: none; }
+}

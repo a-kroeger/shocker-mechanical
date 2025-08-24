@@ -49,6 +49,18 @@ export async function fetchServiceEntryBySlug(slug) {
   return entries.items[0]
 }
 
+/**
+ * Fetch all service entries with full details
+ */
+export async function fetchAllServices() {
+  const entries = await client.getEntries({
+    content_type: 'service',
+    include: 2, // Pull in linked assets/entries
+  })
+
+  return entries.items
+}
+
 /* ------------------------- Site Content Utility ------------------------- */
 
 /**

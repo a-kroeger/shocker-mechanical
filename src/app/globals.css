@@ -1,3 +1,83 @@
+/* --- Lightweight CSS Reset --- */
+
+/* 1. Better box model */
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: "neulis-sans", sans-serif;
+}
+
+/* 2. Remove default margins & set sensible line-height */
+body, h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  tab-size: 4;
+}
+
+/* 3. Base body styles (no hard opinions) */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 4. Media elements: responsive by default */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 5. Inherit fonts & colors for form controls */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 6. Don’t kill focus outlines; only normalize link/button basics */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* 7. Lists: opt-in reset via ARIA role (won’t nuke navs by accident) */
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 8. Tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 9. Smooth scrolling (respects reduced motion) */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* 10. Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 img {
     position: relative !important;
 }
