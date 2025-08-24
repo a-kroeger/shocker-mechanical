@@ -150,3 +150,18 @@
   .cta { padding: 12px 16px; font-size: 15px; }
   .heroCard { width: 90vw; }
 }
+
+/* About Us Section */
+.about {
+    max-width: 858px;
+    padding: 10px;
+    margin: auto;
+}
+.about h2 {
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.1;
+}
+.about p {
+    line-height: 1.3;
+}
