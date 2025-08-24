@@ -7,18 +7,17 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 export default async function ServicePage({ params }) {
   const service = await fetchServiceEntryBySlug(params.slug);
-  const { title, coverPhoto, bodyText, portfolio } = service.fields;
-
-  // Fetch all services
   const allServices = await fetchAllServices();
 
-  // Exclude the current service
-  const filtered = allServices.filter(
+  const { title, coverPhoto, bodyText, portfolio } = service.fields;
+
+  // Filter out the current service
+  const otherServices = allServices.filter(
     (s) => s.fields.slug !== params.slug
   );
 
-  // Shuffle and grab 3 random services
-  const randomServices = filtered
+  // Shuffle and pick 3
+  const randomServices = otherServices
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
@@ -56,10 +55,10 @@ export default async function ServicePage({ params }) {
           <div className={styles.sidebar}>
             <h4>Other Services</h4>
             <div className={styles.serviceList}>
-              {randomServices.map((service) => (
+              {randomServices.map((service, i) => (
                 <Link
                   href={`/services/${service.fields.slug}`}
-                  key={service.sys.id}
+                  key={i}
                   className={styles.serviceItem}
                 >
                   <Image
@@ -77,7 +76,6 @@ export default async function ServicePage({ params }) {
         </aside>
       </div>
 
-      {/* Portfolio Section */}
       <Portfolio portfolio={portfolio} />
     </main>
   );
