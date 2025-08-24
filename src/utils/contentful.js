@@ -61,6 +61,15 @@ export async function fetchAllServices() {
   return entries.items
 }
 
+export async function fetchAllPortfolio() {
+  const entries = await client.getEntries({
+    content_type: 'portfolio',
+    include: 2, // Pull in linked assets/entries
+  })
+
+  return entries.items
+}
+
 /* ------------------------- Site Content Utility ------------------------- */
 
 /**

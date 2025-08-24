@@ -1,7 +1,14 @@
 import React from 'react'
+import PortfolioGrid from '@/components/portfolio/PortfolioGrid'
+import { fetchAllPortfolio } from '@/utils/contentful'
 
-export default function Portfolio() {
+
+
+export default async function Portfolio() {
+
+  const portfolio = await fetchAllPortfolio()
+  
   return (
-    <div>I am the portfolio repository page!</div>
+    <PortfolioGrid portfolio={portfolio}/>
   )
 }
