@@ -1,0 +1,81 @@
+.projectPage {
+  font-family: sans-serif;
+  color: #000;
+  background: #fff;
+}
+
+.projectContent {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3rem 1rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projectText {
+  flex: 2;
+  min-width: 300px;
+}
+
+.projectText h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.projectText p {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #444;
+}
+
+.projectSidebar {
+  flex: 1;
+  min-width: 250px;
+}
+
+.projectSidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.projectSidebar ul,
+.projectSidebar div {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.projectSidebar a {
+  color: #0033cc;
+  text-decoration: underline;
+}
+
+.ctaBox {
+  background-color: #e60000;
+  color: #fff;
+  padding: 2rem;
+  margin: 4rem auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+.ctaBox h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ctaBox a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .projectContent {
+    flex-direction: column;
+  }
+
+  .ctaBox {
+    margin: 2rem;
+  }
+}
