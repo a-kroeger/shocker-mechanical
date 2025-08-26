@@ -71,7 +71,7 @@ export default function Contact() {
         {/* Contact Info */}
         <div className={styles.infoBox}>
           <h2>Contact Info</h2>
-          <p>780-555-5555</p>
+          <p>780-679-0776</p>
           <p>info@shockermecanical.com</p>
           <p>4515 36th Ave, Camrose, AB</p>
         </div>

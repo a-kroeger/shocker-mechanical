@@ -2,13 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../page.module.css";
 import Portfolio from "@/app/portfolio/page";
-import { fetchServiceEntryBySlug, fetchAllServices } from "@/utils/contentful";
+import { fetchServiceEntryBySlug, fetchAllServices, getSiteContent } from "@/utils/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export default async function ServicePage({ params }) {
   const service = await fetchServiceEntryBySlug(params.slug);
   const allServices = await fetchAllServices();
+  const extras = await getSiteContent();
 
+  const { contactPhone, contactEmail, address } = extras.fields
   const { title, coverPhoto, bodyText, portfolio } = service.fields;
 
   // Filter out the current service
@@ -47,9 +49,9 @@ export default async function ServicePage({ params }) {
         <aside className={styles.ctaSection}>
           <div className={styles.ctaBox}>
             <h3>Book Your Appointment Today!</h3>
-            <p>780-555-5555</p>
-            <p>info@shockermchanical.com</p>
-            <p>4615 36th Ave, Camrose, AB</p>
+            <p>{contactPhone}</p>
+            <p>{contactEmail}</p>
+            <p>{address}</p>
           </div>
 
           <div className={styles.sidebar}>

@@ -5,7 +5,7 @@ import { fetchAllServices, getSiteContent } from "@/utils/contentful"
 
 export const metadata = {
   title: "Shocker Mechanical",
-  description: "Meta description goes here",
+  description: "Shocker Mechanical in Camrose, Alberta provides expert automotive services—from routine maintenance to full custom builds and classic restorations."
 }
 
 export default async function RootLayout({ children }) {
