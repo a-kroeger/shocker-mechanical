@@ -71,8 +71,7 @@ export default function ContactForm() {
         <div className={styles.infoBox}>
           <h2>Contact Info</h2>
           <p>780-679-0776</p>
-          {/* NOTE: Double-check the email domain spelling */}
-          <p>info@shockermecanical.com</p>
+          <p>info@shockermechanical.com</p>
           <p>4515 36th Ave, Camrose, AB</p>
         </div>
       </div>
