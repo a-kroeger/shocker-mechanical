@@ -235,3 +235,105 @@
   font-family: sans-serif;
   color: #000;
 }
+
+/* Search Functionality */
+/* Trigger */
+.searchLink {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  color: inherit;
+}
+
+/* Backdrop behind the overlay (under the nav) */
+.searchOverlayBackdrop {
+  position: fixed;
+  top: var(--nav-h, 72px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10,10,10,0.45);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+/* Overlay panel itself */
+.searchOverlay {
+  position: fixed;
+  top: var(--nav-h, 72px); /* sits right under nav */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 1001; /* above backdrop, below your logo's 1001 wrapper is fine since logo has its own stacking */
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* Bar with input and close button */
+.searchBar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+.searchInput {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+.closeBtn {
+  border: 0;
+  background: #f3f3f3;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Results area */
+.searchResults {
+  padding: 12px 16px 24px;
+  overflow: auto;
+}
+.searchHint {
+  color: #666;
+  font-size: 14px;
+  padding: 8px 0;
+}
+.resultItem {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.resultItem:hover { background: rgba(0,0,0,0.04); }
+.resultActive { background: rgba(0,0,0,0.06); }
+.resultTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.resultTitle { font-weight: 600; }
+.resultType {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: .6;
+}
+.resultDesc {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: .9;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
