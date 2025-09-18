@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
 import logo from '../../assets/logo.png'
 import styles from './global.module.css'
 
@@ -18,18 +19,33 @@ export default function Navigation({ services }) {
   const [index, setIndex] = useState(null)
   const [results, setResults] = useState([])
   const [active, setActive] = useState(-1)
+
   const inputRef = useRef(null)
   const overlayRef = useRef(null)
   const navRef = useRef(null)
 
+  const pathname = usePathname()
+  const router = useRouter()
+
   const toggleMenu = (menu) => setOpenMenu(openMenu === menu ? null : menu)
   const toggleMobileDropdown = (menu) => setMobileDropdown(mobileDropdown === menu ? null : menu)
+
+  // 👇 Helper to close EVERYTHING (like tapping hamburger to collapse)
+  const closeAllNav = () => {
+    setSearchOpen(false)
+    setQ('')
+    setResults([])
+    setActive(-1)
+    setMobileOpen(false)
+    setMobileDropdown(null)
+    setOpenMenu(null)
+  }
 
   // Split services by category
   const generalServices = services.filter(s => s.fields.type[0] === 'service')
   const performanceServices = services.filter(s => s.fields.type[0] === 'performance')
 
-  // Keep overlay top aligned just below the nav
+  // Keep overlay positioned below the nav; expose height as CSS var
   useEffect(() => {
     if (!navRef.current) return
     const setVar = () => {
@@ -45,40 +61,45 @@ export default function Navigation({ services }) {
     const onDown = (e) => {
       if (!searchOpen) return
       if (overlayRef.current && overlayRef.current.contains(e.target)) return
-      setSearchOpen(false)
-      setQ('')
-      setResults([])
-      setActive(-1)
+      closeAllNav()
     }
     document.addEventListener('mousedown', onDown)
     return () => document.removeEventListener('mousedown', onDown)
   }, [searchOpen])
 
-  // Close on ESC, navigate on Enter
+  // ✅ Close EVERYTHING when the route changes (clicks, Enter, back/forward)
+  useEffect(() => {
+    if (!searchOpen && !mobileOpen && !openMenu && !mobileDropdown) return
+    closeAllNav()
+  }, [pathname]) // fires on every navigation
+
+  // Keyboard navigation (Esc/↑/↓/Enter)
   useEffect(() => {
     const onKey = (e) => {
       if (!searchOpen) return
       if (e.key === 'Escape') {
-        setSearchOpen(false); setQ(''); setResults([]); setActive(-1)
+        closeAllNav()
       } else if (e.key === 'ArrowDown' && results.length) {
         e.preventDefault(); setActive(i => (i + 1) % results.length)
       } else if (e.key === 'ArrowUp' && results.length) {
         e.preventDefault(); setActive(i => (i - 1 + results.length) % results.length)
       } else if (e.key === 'Enter' && active >= 0 && results[active]) {
-        window.location.href = results[active].slug
+        // Close instantly, then navigate
+        closeAllNav()
+        router.push(results[active].slug)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [searchOpen, results, active])
+  }, [searchOpen, results, active, router])
 
-  // Lazy-load index + data when opening search the first time
+  // Lazy-load index + data when opening search
   const ensureIndex = async () => {
     if (index) return
     setLoading(true)
     const [{ default: FlexSearch }, data] = await Promise.all([
       import('flexsearch'),
-      fetch('/api/search').then(r => r.json())
+      fetch('/api/search').then(r => r.json()),
     ])
     const idx = new FlexSearch.Document({
       document: {
@@ -96,7 +117,7 @@ export default function Navigation({ services }) {
     setLoading(false)
   }
 
-  // Query
+  // Run query
   useEffect(() => {
     if (!q || !index) { setResults([]); setActive(-1); return }
     const groups = index.search(q, { enrich: true })
@@ -112,7 +133,6 @@ export default function Navigation({ services }) {
   const openSearch = async () => {
     setSearchOpen(true)
     await ensureIndex()
-    // focus after next paint
     setTimeout(() => inputRef.current?.focus(), 0)
   }
 
@@ -173,7 +193,7 @@ export default function Navigation({ services }) {
 
           <li><Link href="/contact">Contact</Link></li>
 
-          {/* ✅ Search menu item */}
+          {/* Search menu item */}
           <li>
             <button type="button" className={styles.searchLink} onClick={openSearch}>
               Search
@@ -192,7 +212,7 @@ export default function Navigation({ services }) {
             </button>
             <ul className={`${styles.mobileDropdownMenu} ${mobileDropdown === 'services' ? styles.show : ''}`}>
               {generalServices.map(service => (
-                <li key={`services-${service.fields.slug}`} onClick={() => setMobileOpen(false)}>
+                <li key={`services-${service.fields.slug}`} onClick={closeAllNav}>
                   <Link href={`/services/${service.fields.slug}`}>{service.fields.title}</Link>
                 </li>
               ))}
@@ -206,7 +226,7 @@ export default function Navigation({ services }) {
             </button>
             <ul className={`${styles.mobileDropdownMenu} ${mobileDropdown === 'performance' ? styles.show : ''}`}>
               {performanceServices.map(service => (
-                <li key={`performance-${service.fields.slug}`} onClick={() => setMobileOpen(false)}>
+                <li key={`performance-${service.fields.slug}`} onClick={closeAllNav}>
                   <Link href={`/services/${service.fields.slug}`}>{service.fields.title}</Link>
                 </li>
               ))}
@@ -214,9 +234,9 @@ export default function Navigation({ services }) {
           </li>
 
           {/* Contact */}
-          <li onClick={() => setMobileOpen(false)}><Link href="/contact">Contact</Link></li>
+          <li onClick={closeAllNav}><Link href="/contact">Contact</Link></li>
 
-          {/* ✅ Mobile Search */}
+          {/* Mobile Search trigger */}
           <li>
             <button type="button" className={styles.mobileDropdownToggle} onClick={openSearch}>
               Search
@@ -225,11 +245,17 @@ export default function Navigation({ services }) {
         </ul>
       </div>
 
-      {/* ✅ SEARCH OVERLAY (fills screen minus nav) */}
+      {/* SEARCH OVERLAY (fills screen minus nav) */}
       {searchOpen && (
         <>
           <div className={styles.searchOverlayBackdrop} />
-          <div className={styles.searchOverlay} ref={overlayRef} role="dialog" aria-modal="true" aria-label="Site search">
+          <div
+            className={styles.searchOverlay}
+            ref={overlayRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site search"
+          >
             <div className={styles.searchBar}>
               <input
                 ref={inputRef}
@@ -238,8 +264,14 @@ export default function Navigation({ services }) {
                 className={styles.searchInput}
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
+                aria-label="Search site"
               />
-              <button type="button" className={styles.closeBtn} onClick={() => { setSearchOpen(false); setQ(''); setResults([]); setActive(-1) }}>
+              <button
+                type="button"
+                className={styles.closeBtn}
+                onClick={closeAllNav}
+                aria-label="Close search"
+              >
                 ✕
               </button>
             </div>
@@ -254,9 +286,9 @@ export default function Navigation({ services }) {
                   <li key={r.slug}>
                     <Link
                       href={r.slug}
-                      onClick={() => setSearchOpen(false)}
                       className={`${styles.resultItem} ${i === active ? styles.resultActive : ''}`}
                       onMouseEnter={() => setActive(i)}
+                      onClick={closeAllNav}  // close everything immediately on click
                     >
                       <div className={styles.resultTop}>
                         <span className={styles.resultTitle}>{r.title}</span>
