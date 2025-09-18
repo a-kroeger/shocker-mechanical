@@ -20,3 +20,7 @@ export default async function Services() {
     </main>
   )
 }
+export const metadata = {
+  title: 'All Services | Shocker Mechanical',
+  description: 'Explore Shocker Mechanical’s full range of custom automotive services, from engine swaps and performance upgrades to fabrication and restoration.',
+}

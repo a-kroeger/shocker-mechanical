@@ -12,3 +12,8 @@ export default async function Portfolio() {
     <PortfolioGrid portfolio={portfolio}/>
   )
 }
+
+export const metadata = {
+  title: 'Portfolio | Shocker Mechanical',
+  description: 'Browse Shocker Mechanical’s portfolio of custom automotive projects, including classic restorations, performance builds, hot rods, and custom fabrication work.',
+}

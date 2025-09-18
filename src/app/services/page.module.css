@@ -59,6 +59,13 @@
   height: fit-content;
 }
 
+.ctaSection a,
+.ctaSection p {
+  display: block;
+  margin: 3px 0;
+  padding: 3px 0;
+}
+
 .ctaBox {
   background-color: #e60000;
   color: #fff;
@@ -111,6 +118,8 @@
   object-fit: cover;
   flex-shrink: 0;
 }
+
+
 
 /* Responsive */
 @media (max-width: 900px) {

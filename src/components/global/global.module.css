@@ -1,4 +1,4 @@
-/* ===== Desktop base  ===== */
+/* ===== Base Nav ===== */
 .navigation {
   display: flex;
   width: 100dvw;
@@ -9,37 +9,32 @@
   background: #ffffff;
   z-index: 999;
 }
-.navigation > div:first-child { /* logo container */
-  position: relative;  /* needed for z-index to apply */
-  z-index: 1001;       /* higher than .mobileMenu (1000) */
+.navigation > div:first-child {
+  position: relative;
+  z-index: 1001; /* keep logo above overlay */
 }
-
 .navigation img {
   height: 30px;
   width: auto;
 }
 
-/* Desktop nav list */
-.navigation ul {
+/* ===== Desktop Nav ===== */
+.desktopNav { display: block; }
+.desktopNav .navList {
   display: flex;
   margin: 0;
   position: relative;
   top: 3px;
 }
-
-/* Top-level items */
-.navigation ul li {
+.desktopNav .navList > li {
   display: inline-block;
   margin-left: 50px;
   cursor: pointer;
   position: relative;
 }
-
-/* Make dropdown parent easy to target (optional) */
 .dropdown { position: relative; }
 
-/* ===== Desktop dropdown ===== */
-.navigation ul li ul {
+.desktopNav .navList li ul {
   position: absolute;
   top: 100%;
   left: 0;
@@ -49,38 +44,30 @@
   margin: 0;
   border-radius: 6px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-
   min-width: 100%;
   width: max-content;
-
-  display: block;           /* override parent flex */
+  display: block;
   flex-direction: column;
-
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
   z-index: 1000;
 }
-.navigation ul li ul li {
+.desktopNav .navList li ul li {
   display: block;
   padding: 6px 16px;
   margin: 0;
   white-space: nowrap;
 }
-.navigation ul li ul li:hover {
-  background: #f5f5f5;
-}
-.navigation ul li ul.show {
+.desktopNav .navList li ul li:hover { background: #f5f5f5; }
+.desktopNav .navList li ul.show {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-/* ===== Desktop-only container (hidden on mobile) ===== */
-.desktopNav { display: block; }
-
-/* ===== Hamburger button (hidden on desktop) ===== */
+/* ===== Hamburger (mobile only) ===== */
 .hamburger {
   display: none;
   cursor: pointer;
@@ -93,7 +80,7 @@
   background: none;
   border: none;
   padding: 0;
-  z-index: 1001; /* above overlay */
+  z-index: 1003; /* above overlay */
 }
 .hamburger span {
   display: block;
@@ -113,62 +100,87 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* ===== Fullscreen mobile overlay (hidden by default) ===== */
+/* ===== Mobile Overlay ===== */
 .mobileMenu {
   position: fixed;
-  margin-top: 50px;;
-  inset: 0;
-  height: 100dvh;
-  width: 100dvw;
+  top: 50px; /* below header */
+  left: 0; right: 0; bottom: 0;
   background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transform: translateY(-100%);
   transition: transform 0.3s ease;
-  z-index: 1000; /* sits above the fixed nav, below the hamburger */
+  overflow: hidden;
+  padding-top: 40px;
 }
+.mobileMenu.show { transform: translateY(0); }
 
-/* Ensure overlay UL doesn’t inherit desktop .navigation ul flex */
-.mobileMenu ul {
-  list-style: none;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  position: static;     /* override top/relative */
-  top: auto;
+.mobileInner {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px clamp(16px, 4vw, 28px) 32px;
 }
 .mobileMenu ul li {
-  margin: 20px 0;       /* reset desktop margin-left */
-  font-size: 1.5rem;
+  list-style: none;
 }
-.mobileMenu ul li a {
+.mobileList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.mobileGroup { margin: 0; }
+
+.mobileDropdownToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font: inherit;
+  cursor: pointer;
+}
+.chev { font-size: 1.4rem; line-height: 1; }
+
+.mobileDropdownMenu {
+  margin: 8px 0 10px 0;
+  padding: 0;
+  list-style: none;
+  max-height: 0;
+  padding: 5px 0 0 10px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  border-left: 2px solid #eee;
+}
+.mobileDropdownMenu.show { max-height: 70vh; }
+
+.mobileItem a {
+  display: block;
+  padding: 10px 14px 10px 12px;
   text-decoration: none;
   color: inherit;
 }
 
-/* Show overlay */
-.mobileMenu.show {
-  transform: translateY(0);
+.mobileTopLink {
+  display: block;
+  padding: 14px 12px;
+  background: #f7f7f7;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
 }
 
 /* ===== Responsive rules ===== */
 @media (max-width: 768px) {
-  .desktopNav { display: none; }  /* hide desktop nav */
-  .hamburger  { display: flex; }  /* show hamburger */
-
-  /* Optional: slightly larger tap targets on mobile */
-  .mobileMenu ul li { font-size: 1.6rem; }
+  .desktopNav { display: none; }
+  .hamburger  { display: flex; }
 }
-
-/* Safety: never show overlay on desktop even if class is toggled */
 @media (min-width: 769px) {
   .mobileMenu { display: none; }
 }
 
-/* Footer Styling */
+/* ===== Footer Styling ===== */
 .footerMain {
   border-top: 2px solid #000;
   max-width: 880px;
@@ -181,7 +193,6 @@
   padding: 2rem 0;
   width: 250px;
 }
-
 .quickLinks {
   list-style: none;
   padding-left: 0;
@@ -191,20 +202,13 @@
   font-family: sans-serif;
   color: #000;
 }
-
-.quickLinks li {
-  margin: 0.2rem 0;
-}
-
+.quickLinks li { margin: 0.2rem 0; }
 .quickLinks li a {
   text-decoration: none;
   color: #000;
   transition: opacity 0.3s ease;
 }
-
-.quickLinks li a:hover {
-  opacity: 0.7;
-}
+.quickLinks li a:hover { opacity: 0.7; }
 
 .socials {
   display: flex;
@@ -213,17 +217,13 @@
   gap: 10px;
   margin-bottom: 1rem;
 }
-
 .socials img {
   width: 20px;
   height: 20px;
   filter: grayscale(100%);
   transition: filter 0.3s ease;
 }
-
-.socials img:hover {
-  filter: grayscale(0%);
-}
+.socials img:hover { filter: grayscale(0%); }
 
 .copyright {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
