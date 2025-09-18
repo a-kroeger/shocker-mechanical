@@ -121,6 +121,7 @@
 }
 .mobileMenu ul li {
   list-style: none;
+  margin-bottom: 10px;;
 }
 .mobileList {
   list-style: none;
