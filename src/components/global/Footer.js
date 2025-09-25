@@ -12,8 +12,7 @@ export default function footer(props) {
       <Image
         className={style.footerLogo}
         src={scriptLogo}
-        width={100}
-        height={100}
+        width={250}
         alt='Shocker Mechanical Inc.'
       ></Image>
       <div className={style.footerMain}>
